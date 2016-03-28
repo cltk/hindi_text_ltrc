@@ -1,2 +1,2 @@
-# cltk_classical_hindi_corpus
+# CLTK Classical Hindi Corpus
 Corpus of Raw text for Classical Hindi
