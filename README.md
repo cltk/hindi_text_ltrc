@@ -11,4 +11,4 @@ LTRC addresses the complex problem of understanding and processing natural langu
 LTRC conducts research on both basic and applied aspects of language technology. It is the largest academic centre of speech and language technology in South Asia.
 
 ##LICENSE:
-License can be found in LICENSE.md
+License can be found in [COPYING](https://github.com/Akirato/hindi_text_ltrc/blob/master/COPYING)
