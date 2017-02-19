@@ -2,6 +2,7 @@ import os, re
 import json
 import pdb
 import collections
+from django.utils.text import slugify
 
 omitted_dirs = ['original_classical_hindi_data']
 sourceLink = 'http://ltrc.iiit.ac.in/showfile.php?filename=downloads/Classical_Hindi_Literature/SHUSHA/index.html'
@@ -10,11 +11,15 @@ works = []
 
 def jaggedListToDict(text):
 	node = { str(i): t for i, t in enumerate(text) }
-	node = collections.OrderedDict(sorted(node.items()))
+	node = collections.OrderedDict(sorted(node.items(), key=lambda k: int(k[0])))
 	for child in node:
 		if isinstance(node[child], list):
-			node[child] = walkText(node[child])
+			if len(node[child]) == 1:
+				node[child] = node[child][0]
+			else:
+				node[child] = jaggedListToDict(node[child])
 	return node
+
 
 def main():
 	if not os.path.exists('cltk_json'):
@@ -48,7 +53,7 @@ def main():
 				# For these texts, save whitespace
 				text = [line for line in lines if len(line.strip())]
 				work['text'] = jaggedListToDict(text)
-				fname = work['source'] + '__' + work['englishTitle'][0:100] + '__' + work['language'] + '.json'
+				fname = slugify(work['source']) + '__' + slugify(work['englishTitle'][0:140]) + '__' + slugify(work['language']) + '.json'
 				fname = fname.replace(" ", "")
 				with open('cltk_json/' + fname, 'w') as f:
 					json.dump(work, f)
